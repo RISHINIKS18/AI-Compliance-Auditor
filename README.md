@@ -30,13 +30,17 @@ An MVP system designed to help organizations automatically detect compliance vio
 
 ## Getting Started
 
+### Quick Start
+
+**New to the project?** See [QUICKSTART.md](QUICKSTART.md) for a 5-minute setup guide!
+
 ### Prerequisites
 
 - Docker and Docker Compose
 - AWS account with S3 bucket
 - OpenAI or Groq API key
 
-### Setup
+### Detailed Setup
 
 1. Clone the repository:
 ```bash
@@ -63,15 +67,25 @@ cp frontend/.env.example frontend/.env
 docker-compose up -d
 ```
 
-4. Run database migrations:
-```bash
-docker-compose exec backend alembic upgrade head
-```
-
-5. Access the application:
+4. Access the application:
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md)
+
+### Demo Walkthrough
+
+To see the system in action with sample data, follow the [DEMO.md](DEMO.md) guide.
+
+### Testing
+
+Run the automated integration test suite:
+```bash
+./run_integration_tests.sh
+```
+
+For comprehensive testing documentation, see [TESTING.md](TESTING.md)
 
 ### Development
 
@@ -93,7 +107,7 @@ npm install
 npm run dev
 ```
 
-### Testing
+### Unit Testing
 
 Backend tests:
 ```bash
@@ -106,6 +120,15 @@ Frontend tests:
 cd frontend
 npm test
 ```
+
+### Integration Testing
+
+Run the full integration test suite:
+```bash
+./run_integration_tests.sh
+```
+
+See [TESTING.md](TESTING.md) for detailed testing procedures
 
 ## Project Structure
 
@@ -133,9 +156,52 @@ npm test
 └── README.md
 ```
 
-## API Documentation
+## Documentation
 
-Once the backend is running, visit http://localhost:8000/docs for interactive API documentation.
+📚 **[DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)** - Complete guide to all documentation
+
+### Quick Links
+
+- **[QUICKSTART.md](QUICKSTART.md)** ⚡ - Get started in 5 minutes
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** 🚀 - Complete deployment guide
+- **[DEMO.md](DEMO.md)** 🎬 - Step-by-step demo walkthrough
+- **[TESTING.md](TESTING.md)** 🧪 - Integration testing guide
+- **[DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)** ✅ - Deployment verification
+- **[API Documentation](http://localhost:8000/docs)** - Interactive API docs (when running)
+
+## Sample Data
+
+Sample documents for testing are available in the `sample_data/` directory:
+- `data_privacy_policy.txt` - Sample policy document with compliance rules
+- `violation_document.txt` - Sample document with multiple violations
+- `compliant_document.txt` - Sample compliant document (no violations)
+
+Convert these to PDF format for testing with the system.
+
+## Architecture
+
+The system follows a microservices-inspired architecture:
+
+```
+Frontend (React) → API (FastAPI) → PostgreSQL (metadata)
+                                 → ChromaDB (vectors)
+                                 → AWS S3 (documents)
+                                 → OpenAI/Groq (LLM)
+```
+
+Key workflows:
+1. **Policy Processing**: Upload → Parse → Chunk → Embed → Store
+2. **Rule Extraction**: Retrieve chunks → LLM analysis → Store rules
+3. **Document Audit**: Upload → Parse → Chunk → Embed → Compare → Detect violations
+4. **Remediation**: Generate AI-powered suggestions for each violation
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests: `./run_integration_tests.sh`
+5. Submit a pull request
 
 ## License
 

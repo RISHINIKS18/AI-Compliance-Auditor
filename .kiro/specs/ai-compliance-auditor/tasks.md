@@ -368,8 +368,8 @@
     - Fail fast with clear error messages if services unavailable
     - _Requirements: 10.7_
 
-- [ ] 16. Set up CI/CD pipeline
-  - [ ] 16.1 Create GitHub Actions workflow
+- [x] 16. Set up CI/CD pipeline
+  - [x] 16.1 Create GitHub Actions workflow
     - Create .github/workflows/ci.yml file
     - Add Python linting step using ruff
     - Add JavaScript linting step using eslint
@@ -377,28 +377,28 @@
     - Add frontend test step using vitest
     - _Requirements: 10.5_
   
-  - [ ] 16.2 Add Docker build and push steps
+  - [x] 16.2 Add Docker build and push steps
     - Build backend Docker image in CI
     - Build frontend Docker image in CI
     - Push images to container registry (optional for MVP)
     - _Requirements: 10.1, 10.2_
 
 - [ ] 17. Create deployment documentation and demo
-  - [ ] 17.1 Write deployment guide
+  - [x] 17.1 Write deployment guide
     - Document environment variable setup
     - Document Docker Compose deployment steps
     - Document database migration process
     - Document AWS S3 bucket setup
     - _Requirements: 10.1, 10.2_
   
-  - [ ] 17.2 Create demo script and sample data
+  - [x] 17.2 Create demo script and sample data
     - Prepare sample policy documents
     - Prepare sample audit documents with violations
     - Create demo walkthrough script
     - Document expected results for demo
     - _Requirements: All_
   
-  - [ ] 17.3 Final integration testing
+  - [x] 17.3 Final integration testing
     - Test complete end-to-end flow: register → upload policy → extract rules → upload document → view violations → export report
     - Test multi-tenant isolation with multiple organizations
     - Test error scenarios and recovery
