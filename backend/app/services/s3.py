@@ -41,6 +41,22 @@ class S3Service:
         _, ext = os.path.splitext(filename)
         return f"{organization_id}/policies/{file_id}{ext}"
     
+    def generate_audit_path(self, organization_id: uuid.UUID, file_id: uuid.UUID, filename: str) -> str:
+        """
+        Generate organization-scoped S3 path for audit document files.
+        
+        Args:
+            organization_id: Organization UUID
+            file_id: Unique file identifier
+            filename: Original filename
+            
+        Returns:
+            S3 path in format: org_id/audits/file_id.pdf
+        """
+        # Extract file extension
+        _, ext = os.path.splitext(filename)
+        return f"{organization_id}/audits/{file_id}{ext}"
+    
     def upload_file(
         self,
         file_obj: BinaryIO,

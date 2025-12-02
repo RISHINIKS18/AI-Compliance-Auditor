@@ -205,20 +205,20 @@
     - Test error handling for LLM API failures
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-- [ ] 10. Implement document audit pipeline
-  - [ ] 10.1 Create AuditDocument and Violation models
+- [x] 10. Implement document audit pipeline
+  - [x] 10.1 Create AuditDocument and Violation models
     - Define SQLAlchemy models for AuditDocument and Violation
     - Add foreign key relationships to ComplianceRule
     - _Requirements: 6.5_
   
-  - [ ] 10.2 Implement document upload for auditing
+  - [x] 10.2 Implement document upload for auditing
     - Create POST /api/audits/upload endpoint
     - Upload document to S3 with organization-scoped path
     - Save audit document metadata to PostgreSQL
     - Trigger background processing
     - _Requirements: 6.1, 6.2_
   
-  - [ ] 10.3 Implement violation detection service
+  - [x] 10.3 Implement violation detection service
     - Create ViolationDetector class with detect_violations method
     - Parse and chunk audit document using existing pipeline
     - Generate embeddings for audit document chunks
@@ -228,7 +228,7 @@
     - Store detected violations in Violation table
     - _Requirements: 6.3, 6.4, 6.5_
   
-  - [ ] 10.4 Create audit retrieval endpoints
+  - [x] 10.4 Create audit retrieval endpoints
     - Create GET /api/audits endpoint with organization filtering
     - Create GET /api/audits/{audit_id} endpoint returning summary
     - Create GET /api/audits/{audit_id}/violations endpoint
