@@ -96,15 +96,15 @@
     - Test policy deletion removes S3 file and database record
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
 
-- [ ] 6. Implement frontend policy management
-  - [ ] 6.1 Create policy list page
+- [x] 6. Implement frontend policy management
+  - [x] 6.1 Create policy list page
     - Create PoliciesPage component displaying policy table
     - Use React Query to fetch policies from API
     - Display policy metadata (filename, upload date, status)
     - Add loading and error states
     - _Requirements: 2.6_
   
-  - [ ] 6.2 Create policy upload UI
+  - [x] 6.2 Create policy upload UI
     - Create PolicyUploadModal component with file input
     - Implement drag-and-drop file upload using react-dropzone
     - Show upload progress indicator
