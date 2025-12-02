@@ -1,4 +1,8 @@
-"""Database models."""
+"""
+Model package initialization.
+Ensures SQLAlchemy loads each model exactly once.
+"""
+
 from app.models.organization import Organization
 from app.models.user import User
 from app.models.policy import Policy, PolicyChunk

@@ -5,6 +5,9 @@ from typing import BinaryIO, Optional
 import boto3
 from botocore.exceptions import ClientError
 import structlog
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = structlog.get_logger()
 

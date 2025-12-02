@@ -40,6 +40,9 @@ from app.exception_handlers import (
     generic_exception_handler
 )
 
+from app.database import Base, engine
+# import app.models  # ensures models are registered exactly once
+
 # Configure structured logging
 configure_logging()
 logger = get_logger(__name__)
@@ -85,6 +88,10 @@ app.include_router(exports_router)
 @app.on_event("startup")
 async def startup_event():
     logger.info("application_startup", message="AI Compliance Auditor API starting up")
+     # Create all DB tables if they don't exist
+    logger.info("creating_database_tables")
+    Base.metadata.create_all(bind=engine)
+    logger.info("database_tables_ready")
 
 @app.get("/health")
 async def health_check():

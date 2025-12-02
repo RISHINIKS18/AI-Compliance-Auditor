@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.auth.dependencies import get_current_user
-from app.auth.models import User
+from app.models.user import User
 from app.exports.service import ExportService
 
 

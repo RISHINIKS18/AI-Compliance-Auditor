@@ -8,7 +8,7 @@ import structlog
 
 from app.database import get_db
 from app.auth.dependencies import get_current_user
-from app.auth.models import User
+from app.models.user import User
 from app.embeddings.schemas import SearchRequest, SearchResponse, SearchResultItem
 from app.embeddings.service import EmbeddingService
 from app.embeddings.vector_store import VectorStore

@@ -7,7 +7,7 @@ import structlog
 
 from app.database import get_db
 from app.auth.dependencies import get_current_user
-from app.auth.models import User
+from app.models.user import User
 from app.models.audit import Violation, AuditDocument
 from app.models.rule import ComplianceRule
 from app.models.policy import PolicyChunk

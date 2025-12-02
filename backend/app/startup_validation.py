@@ -5,7 +5,9 @@ from typing import List, Dict, Any
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 import structlog
+from dotenv import load_dotenv
 
+load_dotenv()
 from app.database import engine
 
 logger = structlog.get_logger()
@@ -26,7 +28,7 @@ class StartupValidator:
     
     # Optional environment variables with defaults
     OPTIONAL_ENV_VARS = {
-        "AWS_REGION": "us-east-1",
+        "AWS_REGION": "ap-south-1",
         "CHROMA_HOST": "localhost",
         "CHROMA_PORT": "8001",
         "JWT_ALGORITHM": "HS256",
