@@ -10,7 +10,7 @@
   - Initialize Git repository with .gitignore for Python and Node
   - _Requirements: 10.1, 10.2, 10.6, 10.7_
 
-- [ ] 2. Set up database and migrations
+- [x] 2. Set up database and migrations
   - Install SQLAlchemy and Alembic in backend
   - Create database connection module (app/database.py)
   - Create initial Alembic migration for organizations and users tables

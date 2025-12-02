@@ -12,7 +12,19 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = None
+# Import Base and models for autogenerate support
+from app.database import Base
+from app.models import (
+    Organization,
+    User,
+    Policy,
+    PolicyChunk,
+    ComplianceRule,
+    AuditDocument,
+    Violation,
+)
+
+target_metadata = Base.metadata
 
 def get_url():
     return os.getenv("DATABASE_URL", "postgresql://user:password@localhost:5432/compliance_db")
