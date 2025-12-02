@@ -174,14 +174,14 @@
     - Test retry logic for API failures
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6_
 
-- [ ] 9. Implement compliance rule classification
-  - [ ] 9.1 Create ComplianceRule model and endpoints
+- [x] 9. Implement compliance rule classification
+  - [x] 9.1 Create ComplianceRule model and endpoints
     - Define SQLAlchemy model for ComplianceRule
     - Create GET /api/rules endpoint with organization filtering
     - Create GET /api/rules/{rule_id} endpoint
     - _Requirements: 5.5_
   
-  - [ ] 9.2 Implement LLM-based rule classifier
+  - [x] 9.2 Implement LLM-based rule classifier
     - Install OpenAI or Groq SDK for LLM calls
     - Create RuleClassifier class with extract_rules method
     - Implement LLM prompt template for rule extraction
@@ -189,7 +189,7 @@
     - Add retry logic for LLM API failures
     - _Requirements: 5.2, 5.3, 5.4_
   
-  - [ ] 9.3 Create rule extraction pipeline
+  - [x] 9.3 Create rule extraction pipeline
     - Create POST /api/rules/extract/{policy_id} endpoint
     - Retrieve policy chunks from database
     - For each chunk, query ChromaDB for similar context

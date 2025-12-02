@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.auth.routes import router as auth_router
 from app.policies.routes import router as policies_router
 from app.embeddings.routes import router as embeddings_router
+from app.rules.routes import router as rules_router
 
 app = FastAPI(title="AI Compliance Auditor API", version="1.0.0")
 
@@ -20,6 +21,7 @@ app.add_middleware(
 app.include_router(auth_router)
 app.include_router(policies_router)
 app.include_router(embeddings_router)
+app.include_router(rules_router)
 
 @app.get("/health")
 async def health_check():
