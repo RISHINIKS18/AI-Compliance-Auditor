@@ -20,20 +20,20 @@
   - Add database indexes for organization_id, policy_id, and audit_document_id
   - _Requirements: 10.6_
 
-- [ ] 3. Implement authentication and multi-tenant foundation
-  - [ ] 3.1 Create User and Organization models
+- [x] 3. Implement authentication and multi-tenant foundation
+  - [x] 3.1 Create User and Organization models
     - Define SQLAlchemy models for User and Organization in app/auth/models.py
     - Add password hashing utilities using passlib with bcrypt
     - _Requirements: 1.1, 1.5_
   
-  - [ ] 3.2 Implement JWT authentication service
+  - [x] 3.2 Implement JWT authentication service
     - Create JWT token generation and validation functions using python-jose
     - Implement registration endpoint with password hashing
     - Implement login endpoint returning JWT token
     - Create authentication dependency for FastAPI routes
     - _Requirements: 1.2, 1.4_
   
-  - [ ] 3.3 Create multi-tenant middleware
+  - [x] 3.3 Create multi-tenant middleware
     - Implement FastAPI dependency to extract organization_id from JWT
     - Create database query helper that auto-filters by organization_id
     - _Requirements: 1.3, 1.5_
@@ -45,15 +45,15 @@
     - Test multi-tenant data isolation
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-- [ ] 4. Implement frontend authentication
-  - [ ] 4.1 Set up React Router and authentication context
+- [-] 4. Implement frontend authentication
+  - [x] 4.1 Set up React Router and authentication context
     - Install React Router, React Query, and axios
     - Create AuthContext for managing authentication state
     - Create ProtectedRoute component for route guarding
     - Set up axios interceptor for JWT token injection
     - _Requirements: 1.2_
   
-  - [ ] 4.2 Create login and registration pages
+  - [x] 4.2 Create login and registration pages
     - Create LoginPage component with email/password form
     - Create RegisterPage component with organization creation
     - Implement form validation using react-hook-form
@@ -61,7 +61,7 @@
     - Store JWT token in localStorage on successful login
     - _Requirements: 1.1, 1.2_
   
-  - [ ] 4.3 Create dashboard layout
+  - [-] 4.3 Create dashboard layout
     - Create DashboardLayout component with sidebar and header
     - Create Sidebar component with navigation links
     - Create Header component with user menu and logout
