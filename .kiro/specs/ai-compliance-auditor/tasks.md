@@ -68,14 +68,14 @@
     - Set up Tailwind CSS configuration and ShadCN components
     - _Requirements: 1.2_
 
-- [ ] 5. Implement policy upload and storage
-  - [ ] 5.1 Create Policy models and S3 integration
+- [x] 5. Implement policy upload and storage
+  - [x] 5.1 Create Policy models and S3 integration
     - Define SQLAlchemy models for Policy and PolicyChunk
     - Create S3 client wrapper using boto3 for file uploads
     - Implement organization-scoped S3 path generation (org_id/policies/file_id.pdf)
     - _Requirements: 2.2, 2.3, 2.6_
   
-  - [ ] 5.2 Implement policy upload API endpoint
+  - [x] 5.2 Implement policy upload API endpoint
     - Create POST /api/policies/upload endpoint accepting multipart/form-data
     - Validate file type (PDF only) and file size limits
     - Upload file to S3 with organization-scoped path
@@ -83,7 +83,7 @@
     - Return policy ID and success status
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
   
-  - [ ] 5.3 Implement policy retrieval endpoints
+  - [x] 5.3 Implement policy retrieval endpoints
     - Create GET /api/policies endpoint with organization filtering
     - Create GET /api/policies/{policy_id} endpoint
     - Create DELETE /api/policies/{policy_id} endpoint with S3 cleanup
