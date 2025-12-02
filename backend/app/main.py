@@ -11,6 +11,7 @@ from app.audits.routes import router as audits_router
 from app.remediation.routes import router as remediation_router
 from app.exports.routes import router as exports_router
 from app.logging_config import configure_logging, get_logger
+from app.startup_validation import run_startup_validation
 from app.exceptions import (
     ComplianceAuditorException,
     DocumentParsingError,
@@ -42,6 +43,9 @@ from app.exception_handlers import (
 # Configure structured logging
 configure_logging()
 logger = get_logger(__name__)
+
+# Run startup validation - fail fast if services unavailable
+run_startup_validation()
 
 app = FastAPI(title="AI Compliance Auditor API", version="1.0.0")
 
@@ -84,8 +88,16 @@ async def startup_event():
 
 @app.get("/health")
 async def health_check():
+    """
+    Health check endpoint that verifies all system dependencies.
+    
+    Returns:
+        Overall health status and individual service statuses
+    """
+    from app.health import health_check_service
+    
     logger.debug("health_check_requested")
-    return {"status": "healthy"}
+    return health_check_service.get_overall_health()
 
 @app.get("/")
 async def root():

@@ -352,8 +352,8 @@
     - Log errors to console for debugging
     - _Requirements: 10.4_
 
-- [ ] 15. Create health check and monitoring
-  - [ ] 15.1 Implement health check endpoint
+- [x] 15. Create health check and monitoring
+  - [x] 15.1 Implement health check endpoint
     - Create GET /health endpoint
     - Check PostgreSQL connection status
     - Check ChromaDB connection status
@@ -361,7 +361,7 @@
     - Return overall health status and individual service statuses
     - _Requirements: 10.7_
   
-  - [ ] 15.2 Add service startup validation
+  - [x] 15.2 Add service startup validation
     - Validate all required environment variables on startup
     - Test database connection on startup
     - Test ChromaDB connection on startup
