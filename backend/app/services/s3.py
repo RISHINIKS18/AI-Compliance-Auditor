@@ -92,6 +92,33 @@ class S3Service:
             logger.error("s3_delete_failed", s3_path=s3_path, error=str(e))
             return False
     
+    def download_file(self, s3_path: str) -> Optional[bytes]:
+        """
+        Download file from S3 and return as bytes.
+        
+        Args:
+            s3_path: S3 path of the file to download
+            
+        Returns:
+            File content as bytes or None if download fails
+        """
+        try:
+            response = self.s3_client.get_object(
+                Bucket=self.bucket_name,
+                Key=s3_path
+            )
+            file_bytes = response['Body'].read()
+            logger.info(
+                "file_downloaded_from_s3",
+                s3_path=s3_path,
+                bucket=self.bucket_name,
+                size=len(file_bytes)
+            )
+            return file_bytes
+        except ClientError as e:
+            logger.error("s3_download_failed", s3_path=s3_path, error=str(e))
+            return None
+    
     def get_file_url(self, s3_path: str, expiration: int = 3600) -> Optional[str]:
         """
         Generate presigned URL for file access.

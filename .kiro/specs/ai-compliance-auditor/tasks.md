@@ -112,22 +112,22 @@
     - Refresh policy list after successful upload
     - _Requirements: 2.1, 2.5_
 
-- [ ] 7. Implement document parsing and chunking
-  - [ ] 7.1 Create document parser
+- [x] 7. Implement document parsing and chunking
+  - [x] 7.1 Create document parser
     - Install PyMuPDF (fitz) for PDF text extraction
     - Create DocumentParser class with extract_text method
     - Implement text cleaning (remove extra whitespace, normalize)
     - Add error handling for corrupted or unsupported PDFs
     - _Requirements: 3.1, 3.2, 3.6_
   
-  - [ ] 7.2 Implement text chunking with token counting
+  - [x] 7.2 Implement text chunking with token counting
     - Install tiktoken for token counting
     - Create TextChunker class with chunk_text method
     - Implement 500-token window chunking with 50-token overlap
     - Use NumPy for efficient token-size calculations
     - _Requirements: 3.3, 3.4_
   
-  - [ ] 7.3 Create processing pipeline
+  - [x] 7.3 Create processing pipeline
     - Create background task for policy processing
     - Trigger parsing and chunking after policy upload
     - Store chunks in PolicyChunk table with references to parent policy

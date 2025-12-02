@@ -1,7 +1,7 @@
 """Policy management API routes."""
 import uuid
 from typing import Annotated
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status
+from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status, BackgroundTasks
 from sqlalchemy.orm import Session
 import structlog
 
@@ -16,6 +16,7 @@ from app.policies.schemas import (
     PolicyDeleteResponse
 )
 from app.services.s3 import s3_service
+from app.processing.pipeline import processing_pipeline
 
 logger = structlog.get_logger()
 
@@ -25,6 +26,35 @@ router = APIRouter(prefix="/api/policies", tags=["policies"])
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
 ALLOWED_CONTENT_TYPES = ["application/pdf"]
 ALLOWED_EXTENSIONS = [".pdf"]
+
+
+def process_policy_background(policy_id: str):
+    """
+    Background task to process policy document.
+    
+    Args:
+        policy_id: UUID of the policy to process
+    """
+    from app.database import SessionLocal
+    
+    db = SessionLocal()
+    try:
+        logger.info("background_processing_started", policy_id=policy_id)
+        success = processing_pipeline.process_policy(policy_id, db)
+        
+        if success:
+            logger.info("background_processing_completed", policy_id=policy_id)
+        else:
+            logger.error("background_processing_failed", policy_id=policy_id)
+    except Exception as e:
+        logger.error(
+            "background_processing_exception",
+            policy_id=policy_id,
+            error=str(e),
+            error_type=type(e).__name__
+        )
+    finally:
+        db.close()
 
 
 def validate_pdf_file(file: UploadFile) -> None:
@@ -55,6 +85,7 @@ def validate_pdf_file(file: UploadFile) -> None:
 @router.post("/upload", response_model=PolicyUploadResponse, status_code=status.HTTP_201_CREATED)
 async def upload_policy(
     file: Annotated[UploadFile, File(description="PDF policy document")],
+    background_tasks: BackgroundTasks,
     current_user: Annotated[User, Depends(get_current_user)],
     db: Annotated[Session, Depends(get_db)]
 ):
@@ -137,11 +168,17 @@ async def upload_policy(
             file_size=file_size
         )
         
+        # Trigger background processing (parse and chunk)
+        background_tasks.add_task(
+            process_policy_background,
+            policy_id=str(policy.id)
+        )
+        
         return PolicyUploadResponse(
             policy_id=policy.id,
             filename=policy.filename,
             status=policy.status,
-            message="Policy uploaded successfully"
+            message="Policy uploaded successfully and processing started"
         )
     
     except Exception as e:
@@ -214,6 +251,47 @@ async def get_policy(
     )
     
     return PolicyResponse.model_validate(policy)
+
+
+@router.post("/{policy_id}/reprocess", status_code=status.HTTP_202_ACCEPTED)
+async def reprocess_policy(
+    policy_id: uuid.UUID,
+    background_tasks: BackgroundTasks,
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Session, Depends(get_db)]
+):
+    """
+    Reprocess a policy document (useful for failed policies).
+    
+    Triggers parsing and chunking again for the specified policy.
+    """
+    policy = db.query(Policy).filter(
+        Policy.id == policy_id,
+        Policy.organization_id == current_user.organization_id
+    ).first()
+    
+    if not policy:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Policy not found"
+        )
+    
+    # Trigger background reprocessing
+    background_tasks.add_task(
+        process_policy_background,
+        policy_id=str(policy.id)
+    )
+    
+    logger.info(
+        "policy_reprocessing_triggered",
+        policy_id=str(policy_id),
+        org_id=str(current_user.organization_id)
+    )
+    
+    return {
+        "policy_id": policy_id,
+        "message": "Policy reprocessing started"
+    }
 
 
 @router.delete("/{policy_id}", response_model=PolicyDeleteResponse)
