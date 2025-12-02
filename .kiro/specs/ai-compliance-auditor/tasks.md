@@ -242,21 +242,21 @@
     - Test organization-level data isolation
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7_
 
-- [ ] 11. Implement remediation suggestion generation
-  - [ ] 11.1 Create remediation service
+- [x] 11. Implement remediation suggestion generation
+  - [x] 11.1 Create remediation service
     - Create RemediationService class with generate_suggestion method
     - Implement LLM prompt template for remediation suggestions
     - Include violation context, policy rule, and document excerpt in prompt
     - Parse LLM response and extract actionable steps
     - _Requirements: 8.2, 8.3_
   
-  - [ ] 11.2 Integrate remediation into audit pipeline
+  - [x] 11.2 Integrate remediation into audit pipeline
     - Generate remediation suggestions when violations are detected
     - Store remediation text in Violation table
     - Provide generic template if LLM generation fails
     - _Requirements: 8.1, 8.4, 8.5_
   
-  - [ ] 11.3 Create remediation endpoint
+  - [x] 11.3 Create remediation endpoint
     - Create POST /api/remediation/generate/{violation_id} endpoint
     - Allow manual regeneration of remediation suggestions
     - _Requirements: 8.4_

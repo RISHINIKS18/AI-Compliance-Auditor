@@ -15,6 +15,7 @@ from app.processing.chunker import text_chunker
 from app.services.s3 import s3_service
 from app.embeddings.service import EmbeddingService
 from app.embeddings.vector_store import VectorStore
+from app.remediation.service import remediation_service
 
 logger = structlog.get_logger()
 
@@ -434,16 +435,57 @@ class AuditService:
                     rules=rules
                 )
                 
-                # Store detected violations
+                # Store detected violations with remediation suggestions
                 for violation_data in violations:
+                    # Find the rule object for this violation
+                    rule = next(
+                        (r for r in rules if str(r.id) == violation_data.get("rule_id")),
+                        None
+                    )
+                    
+                    if not rule:
+                        logger.warning(
+                            "rule_not_found_for_violation",
+                            rule_id=violation_data.get("rule_id"),
+                            audit_id=str(audit.id)
+                        )
+                        continue
+                    
+                    # Create violation object
                     violation = Violation(
                         audit_document_id=audit.id,
                         rule_id=violation_data.get("rule_id"),
                         chunk_id=None,  # We don't store audit chunks, just use index
                         severity=violation_data.get("severity", "medium"),
                         explanation=violation_data.get("explanation", ""),
-                        remediation=None  # Will be generated in next task
+                        remediation=None  # Will be set below
                     )
+                    
+                    # Generate remediation suggestion
+                    try:
+                        remediation_text = remediation_service.generate_suggestion(
+                            violation=violation,
+                            rule=rule,
+                            document_excerpt=chunk.content
+                        )
+                        violation.remediation = remediation_text
+                        
+                        logger.info(
+                            "remediation_generated_for_violation",
+                            audit_id=str(audit.id),
+                            rule_id=str(rule.id),
+                            chunk_index=i
+                        )
+                    except Exception as e:
+                        logger.error(
+                            "remediation_generation_failed_using_template",
+                            audit_id=str(audit.id),
+                            rule_id=str(rule.id),
+                            error=str(e)
+                        )
+                        # Fallback is handled in remediation_service.generate_suggestion
+                        # If it still fails, we'll have None which is acceptable
+                    
                     db.add(violation)
                     total_violations += 1
                 
