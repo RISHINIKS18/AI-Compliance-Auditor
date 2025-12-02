@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import ErrorBoundary from './components/ErrorBoundary';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardLayout from './components/layout/DashboardLayout';
@@ -23,33 +24,72 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthProvider>
-          <Toaster position="top-right" />
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <DashboardLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate to="/dashboard" replace />} />
-              <Route path="dashboard" element={<DashboardPage />} />
-              <Route path="policies" element={<PoliciesPage />} />
-              <Route path="audits" element={<AuditsPage />} />
-              <Route path="violations" element={<ViolationsPage />} />
-              <Route path="settings" element={<SettingsPage />} />
-            </Route>
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AuthProvider>
+            <Toaster position="top-right" />
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <ErrorBoundary>
+                      <DashboardLayout />
+                    </ErrorBoundary>
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<Navigate to="/dashboard" replace />} />
+                <Route 
+                  path="dashboard" 
+                  element={
+                    <ErrorBoundary>
+                      <DashboardPage />
+                    </ErrorBoundary>
+                  } 
+                />
+                <Route 
+                  path="policies" 
+                  element={
+                    <ErrorBoundary>
+                      <PoliciesPage />
+                    </ErrorBoundary>
+                  } 
+                />
+                <Route 
+                  path="audits" 
+                  element={
+                    <ErrorBoundary>
+                      <AuditsPage />
+                    </ErrorBoundary>
+                  } 
+                />
+                <Route 
+                  path="violations" 
+                  element={
+                    <ErrorBoundary>
+                      <ViolationsPage />
+                    </ErrorBoundary>
+                  } 
+                />
+                <Route 
+                  path="settings" 
+                  element={
+                    <ErrorBoundary>
+                      <SettingsPage />
+                    </ErrorBoundary>
+                  } 
+                />
+              </Route>
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Routes>
+          </AuthProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

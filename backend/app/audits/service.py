@@ -10,12 +10,13 @@ import structlog
 from app.models.audit import AuditDocument, Violation
 from app.models.policy import PolicyChunk
 from app.models.rule import ComplianceRule
-from app.processing.parser import document_parser, DocumentParsingError
+from app.processing.parser import document_parser
 from app.processing.chunker import text_chunker
 from app.services.s3 import s3_service
 from app.embeddings.service import EmbeddingService
 from app.embeddings.vector_store import VectorStore
 from app.remediation.service import remediation_service
+from app.exceptions import DocumentParsingError
 
 logger = structlog.get_logger()
 

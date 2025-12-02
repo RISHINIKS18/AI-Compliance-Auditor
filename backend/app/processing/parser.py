@@ -4,12 +4,9 @@ from typing import Optional
 import fitz  # PyMuPDF
 import structlog
 
+from app.exceptions import DocumentParsingError
+
 logger = structlog.get_logger()
-
-
-class DocumentParsingError(Exception):
-    """Exception raised when document parsing fails."""
-    pass
 
 
 class DocumentParser:

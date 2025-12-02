@@ -330,22 +330,22 @@
     - Test error handling for export failures
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
 
-- [ ] 14. Implement logging and error handling
-  - [ ] 14.1 Set up structured logging
+- [x] 14. Implement logging and error handling
+  - [x] 14.1 Set up structured logging
     - Install structlog in backend
     - Configure JSON logging format
     - Add logging to all major operations (upload, parse, embed, audit)
     - Include context (org_id, user_id, policy_id) in log entries
     - _Requirements: 10.3_
   
-  - [ ] 14.2 Implement global exception handling
+  - [x] 14.2 Implement global exception handling
     - Create custom exception classes (DocumentParsingError, EmbeddingGenerationError, LLMAPIError)
     - Add FastAPI exception handlers for custom exceptions
     - Return standardized error response format
     - Log all exceptions with full context
     - _Requirements: 10.4_
   
-  - [ ] 14.3 Add frontend error boundaries
+  - [x] 14.3 Add frontend error boundaries
     - Create ErrorBoundary component for React
     - Wrap main app sections with error boundaries
     - Display user-friendly error messages
