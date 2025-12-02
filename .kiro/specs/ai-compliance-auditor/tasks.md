@@ -294,8 +294,8 @@
     - Add loading and error states
     - _Requirements: 7.6_
 
-- [ ] 13. Implement audit report export
-  - [ ] 13.1 Create CSV export functionality
+- [x] 13. Implement audit report export
+  - [x] 13.1 Create CSV export functionality
     - Install Pandas in backend
     - Create ExportService class with generate_csv method
     - Format violations data into DataFrame with proper columns
@@ -303,20 +303,20 @@
     - Filter by organization_id
     - _Requirements: 9.2, 9.4_
   
-  - [ ] 13.2 Create PDF export functionality
+  - [x] 13.2 Create PDF export functionality
     - Install ReportLab or WeasyPrint for PDF generation
     - Create PDF template with header, violation table, and details
     - Include policy references and remediation suggestions
     - _Requirements: 9.3_
   
-  - [ ] 13.3 Create export endpoints
+  - [x] 13.3 Create export endpoints
     - Create GET /api/exports/csv/{audit_id} endpoint
     - Create GET /api/exports/pdf/{audit_id} endpoint
     - Return file stream with appropriate content-type headers
     - Handle export failures with error messages
     - _Requirements: 9.1, 9.5, 9.6_
   
-  - [ ] 13.4 Create frontend export controls
+  - [x] 13.4 Create frontend export controls
     - Create ExportButton component with CSV/PDF dropdown
     - Trigger download using browser download API
     - Show loading indicator during export generation

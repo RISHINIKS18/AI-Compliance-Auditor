@@ -7,6 +7,7 @@ from app.embeddings.routes import router as embeddings_router
 from app.rules.routes import router as rules_router
 from app.audits.routes import router as audits_router
 from app.remediation.routes import router as remediation_router
+from app.exports.routes import router as exports_router
 
 app = FastAPI(title="AI Compliance Auditor API", version="1.0.0")
 
@@ -26,6 +27,7 @@ app.include_router(embeddings_router)
 app.include_router(rules_router)
 app.include_router(audits_router)
 app.include_router(remediation_router)
+app.include_router(exports_router)
 
 @app.get("/health")
 async def health_check():

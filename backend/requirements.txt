@@ -13,5 +13,6 @@ pymupdf==1.23.21
 tiktoken==0.5.2
 numpy==1.26.3
 pandas==2.2.0
+reportlab==4.0.9
 structlog==24.1.0
 python-dotenv==1.0.1
