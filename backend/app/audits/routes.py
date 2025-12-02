@@ -270,6 +270,72 @@ async def get_audit(
     )
 
 
+@router.get("/violations", response_model=ViolationListResponse)
+async def get_all_violations(
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[Session, Depends(get_db)]
+):
+    """
+    Get all violations across all audit documents for the current user's organization.
+    
+    Returns list of all violations with enriched data including document name and rule description.
+    """
+    from app.models.rule import ComplianceRule
+    
+    # Get all audits for the organization
+    audit_ids = db.query(AuditDocument.id).filter(
+        AuditDocument.organization_id == current_user.organization_id
+    ).all()
+    
+    audit_id_list = [audit_id[0] for audit_id in audit_ids]
+    
+    # Get all violations for these audits with joined data
+    violations = db.query(Violation).filter(
+        Violation.audit_document_id.in_(audit_id_list)
+    ).order_by(Violation.detected_at.desc()).all()
+    
+    # Enrich violations with document name and rule description
+    enriched_violations = []
+    for violation in violations:
+        # Get audit document
+        audit = db.query(AuditDocument).filter(
+            AuditDocument.id == violation.audit_document_id
+        ).first()
+        
+        # Get rule
+        rule = db.query(ComplianceRule).filter(
+            ComplianceRule.id == violation.rule_id
+        ).first()
+        
+        # Create enriched response
+        violation_dict = {
+            "id": violation.id,
+            "audit_document_id": violation.audit_document_id,
+            "rule_id": violation.rule_id,
+            "chunk_id": violation.chunk_id,
+            "severity": violation.severity,
+            "explanation": violation.explanation,
+            "remediation": violation.remediation,
+            "detected_at": violation.detected_at,
+            "document_name": audit.filename if audit else "Unknown",
+            "rule_description": rule.rule_text if rule else "Unknown rule",
+            "policy_excerpt": None,  # TODO: Add policy excerpt from chunk
+            "document_excerpt": None,  # TODO: Add document excerpt from chunk
+        }
+        enriched_violations.append(violation_dict)
+    
+    logger.info(
+        "all_violations_retrieved",
+        org_id=str(current_user.organization_id),
+        count=len(violations)
+    )
+    
+    return {
+        "violations": enriched_violations,
+        "total": len(enriched_violations)
+    }
+
+
 @router.get("/{audit_id}/violations", response_model=ViolationListResponse)
 async def get_audit_violations(
     audit_id: uuid.UUID,

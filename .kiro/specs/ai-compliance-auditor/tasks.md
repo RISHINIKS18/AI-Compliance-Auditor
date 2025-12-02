@@ -267,28 +267,28 @@
     - Test fallback to generic template on failure
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5_
 
-- [ ] 12. Implement violations dashboard
-  - [ ] 12.1 Create violations table component
+- [x] 12. Implement violations dashboard
+  - [x] 12.1 Create violations table component
     - Install TanStack Table for React
     - Create ViolationsTable component with sortable columns
     - Display severity badge, rule description, document name, date
     - Implement client-side sorting and pagination
     - _Requirements: 7.1, 7.2_
   
-  - [ ] 12.2 Implement violation filtering
+  - [x] 12.2 Implement violation filtering
     - Create ViolationFilters component with severity, date, document filters
     - Implement filter state management
     - Update table based on active filters
     - _Requirements: 7.5_
   
-  - [ ] 12.3 Create violation detail modal
+  - [x] 12.3 Create violation detail modal
     - Create ViolationDetailModal component
     - Display policy excerpt and document excerpt side-by-side
     - Show AI-generated remediation suggestions prominently
     - Add action buttons (mark resolved, export, etc.)
     - _Requirements: 7.3, 7.4_
   
-  - [ ] 12.4 Integrate with React Query
+  - [x] 12.4 Integrate with React Query
     - Use React Query for violations data fetching
     - Implement caching and automatic refetching
     - Add loading and error states
