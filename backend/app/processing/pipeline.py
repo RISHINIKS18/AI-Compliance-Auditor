@@ -10,6 +10,17 @@ from app.services.s3 import s3_service
 
 logger = structlog.get_logger()
 
+# Import embedding pipeline (lazy import to avoid circular dependencies)
+_embedding_pipeline = None
+
+def get_embedding_pipeline():
+    """Lazy load embedding pipeline to avoid circular imports."""
+    global _embedding_pipeline
+    if _embedding_pipeline is None:
+        from app.embeddings.pipeline import embedding_pipeline
+        _embedding_pipeline = embedding_pipeline
+    return _embedding_pipeline
+
 
 class ProcessingPipeline:
     """Pipeline for processing policy documents: parse, chunk, and store."""
@@ -132,6 +143,32 @@ class ProcessingPipeline:
                 chunks_stored=len(chunks),
                 status="completed"
             )
+            
+            # Step 5: Generate and store embeddings
+            try:
+                embedding_pipeline = get_embedding_pipeline()
+                embedding_success = embedding_pipeline.process_policy_embeddings(
+                    policy_id=str(policy.id),
+                    db=db
+                )
+                
+                if embedding_success:
+                    logger.info(
+                        "embeddings_generated_successfully",
+                        policy_id=str(policy.id)
+                    )
+                else:
+                    logger.warning(
+                        "embeddings_generation_failed_but_policy_completed",
+                        policy_id=str(policy.id)
+                    )
+            except Exception as e:
+                logger.error(
+                    "embeddings_generation_error",
+                    policy_id=str(policy.id),
+                    error=str(e)
+                )
+                # Don't fail the entire pipeline if embeddings fail
             
             return True
             

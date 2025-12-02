@@ -141,27 +141,27 @@
     - Test error handling for corrupted PDFs
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
 
-- [ ] 8. Implement embedding generation and vector storage
-  - [ ] 8.1 Set up ChromaDB client
+- [x] 8. Implement embedding generation and vector storage
+  - [x] 8.1 Set up ChromaDB client
     - Install chromadb Python client
     - Create VectorStore class wrapping ChromaDB operations
     - Implement organization-scoped collection creation (org_{org_id}_policies)
     - _Requirements: 4.6_
   
-  - [ ] 8.2 Implement embedding service
+  - [x] 8.2 Implement embedding service
     - Install OpenAI Python SDK
     - Create EmbeddingService class with generate_embeddings method
     - Implement batch embedding generation (100 chunks at a time)
     - Add retry logic with exponential backoff for API failures
     - _Requirements: 4.1, 4.5_
   
-  - [ ] 8.3 Store embeddings in ChromaDB
+  - [x] 8.3 Store embeddings in ChromaDB
     - Generate embeddings for policy chunks after chunking completes
     - Store vectors in ChromaDB with metadata (chunk_id, policy_id, chunk_index)
     - Use NumPy for cosine similarity verification
     - _Requirements: 4.2, 4.3_
   
-  - [ ] 8.4 Implement semantic search endpoint
+  - [x] 8.4 Implement semantic search endpoint
     - Create POST /api/embeddings/search endpoint
     - Accept query text and return top-k similar chunks
     - Use ChromaDB similarity search with organization filtering
